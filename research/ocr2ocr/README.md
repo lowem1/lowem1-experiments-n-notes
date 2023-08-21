@@ -4,8 +4,9 @@
 
 General purpose Optical Character Recognition(OCR) Engines are responsible for translating heterogeneous, scanned and printed documents into machine readable digital text. In the process of converting an image over to text the most common errors in digital translation are caused by the cosmetic defects within the image, irregular page segmentation level, and overall image quality. In order to navigate these challenges, yielding more reliable results, OCR engines often are accompanied by pre and post processors in the form of text extraction pipelines. These pipelines consist of an image to image de-noising preprocessor, a neural or transformer architecture based OCR engine, and a text to text correction mechanism to adjust erroneous output. Traditionally these components independently trained and regularized on their specific roles; however this paper covers the modularization each of these tasks to be implemented in the same architecture by leveraging transfer learning to create a robust auto-encoder-based transformer to achieving a modular approach to generalizing preprocessing tasks by transferring the properties of one document processing engine to another. We aim to show:
 
-> 1.The properties of modular transfer learning can serve as an semi-supervised pre-training method for language understanding.
-> 2\. Leveraging two OCR engines can act as a form of adversarial consistency regularization for improving system performance.
+
+1.The properties of modular transfer learning can serve as an semi-supervised pre-training method for language understanding.
+2. Leveraging two OCR engines can act as a form of adversarial consistency regularization for improving system performance.
 
 ### Methods
 
@@ -15,7 +16,7 @@ The figure below represents the overall training scheme we use for leveraging de
 
 #### Overview of De-Noising Transfer and Task Scoring
 
-![ocr2ocr](docs/ocr2ocr.png)
+![Screenshot from 2023-08-20 13-28-20.png](:/246e3d9729794b05a1015d6dc8cb9680)
 
 #### Training Objective
 
@@ -41,23 +42,24 @@ We start by defining the dynamic components of what the Levenshtein edit distanc
 - I: number of character insertions
 - Z: any arbitrary text transformation for observation
 - N: number of samples
-> Where each sample point and granularity level is defined by the task assigned; i.e.: character error rate vs Word Error Rate vs Line Error Rate, etc.
 
-> We propose a generic error rate such that our rate ERR can be expressed as
+Where each sample point and granularity level is defined by the task assigned; i.e.: character error rate vs Word Error Rate vs Line Error Rate, etc.
 
-> ERR = $\dfrac{\sum_{i=0}^{I}T_i}{N}$;
+We propose a generic error rate such that our rate ERR can be expressed as
 
-> Where T is a set of potential transformations that are observed in our desired dynamic string comparison algorithm; in our case, Levenshtein Edit Distance, where T represents a set of transformations
+ERR = $\dfrac{\sum_{i=0}^{I}T_i}{N}$;
 
-> T = {S, D, I..., Z}
+Where T is a set of potential transformations that are observed in our desired dynamic string comparison algorithm; in our case, Levenshtein Edit Distance, where T represents a set of transformations
 
-> **Character Error Rate** serves as a character to character dynamic mapping of how well each character is translated during document extraction. This acts as the lowest level of granularity we can statistically achieve using our tokenless transformer based approach and is broken down word by word at the evaluation level. The error rate can be computed as such that:
+T = {S, D, I..., Z}
 
-> > Where each observation is at the character/btye level
-> > CER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
-> 
-> **Word Error Rate** serves as a sequence to sequence measurement of how well each word in a particular line of text is represented during document extraction. For general use and extension into sequence to sequence prediction in language modeling tasks, the word level serves as the primary level of granularity; i.e.: word insertion, masked language modeling, sequence to sequence translation. Being able to measure the overall representation of line level text can be computed as:
+**Character Error Rate** serves as a character to character dynamic mapping of how well each character is translated during document extraction. This acts as the lowest level of granularity we can statistically achieve using our tokenless transformer based approach and is broken down word by word at the evaluation level. The error rate can be computed as such that:
 
-> > N: number of samples
-> > Where each observation is at the word/token level
-> > WER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
+Where each observation is at the character/btye level
+CER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
+
+**Word Error Rate** serves as a sequence to sequence measurement of how well each word in a particular line of text is represented during document extraction. For general use and extension into sequence to sequence prediction in language modeling tasks, the word level serves as the primary level of granularity; i.e.: word insertion, masked language modeling, sequence to sequence translation. Being able to measure the overall representation of line level text can be computed as:
+
+N: number of samples
+Where each observation is at the word/token level
+WER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
