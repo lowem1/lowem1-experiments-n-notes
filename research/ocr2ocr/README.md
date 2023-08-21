@@ -16,15 +16,15 @@ The figure below represents the overall training scheme we use for leveraging de
 
 #### Overview of De-Noising Transfer and Task Scoring
 
-![Screenshot from 2023-08-20 13-28-20.png](:/246e3d9729794b05a1015d6dc8cb9680)
+![ocr2ocr](docs/ocr2ocr.png)
 
 #### Training Objective
 
 Due to our goal being to minimize the predictive error between our two our two OCR engines given our raw document corpus, we aim to treat our objective function like any other regression problem with the goal of minimizing our error. Unlike most regression problems, our goal is to learn over an extremely dense high dimensional space while capturing meaningful context often bypassed by traditional high dimensional regression approaches by using to the attention based mechanism of transformer architectures.
 Our generic Mean Squared Error is defined such that:
 
-> MSE = $\dfrac{1}{N} \sum_{n}^{N}(y_n - \hat{y}_n)^2$
-> Where $\hat{y}$ is the predicted output of our generic OCR mapping and $y$ is our targeted robust OCR engine.
+&nbsp; MSE = $\dfrac{1}{N} \sum_{n}^{N}(y_n - \hat{y}_n)^2$
+&nbsp; Where $\hat{y}$ is the predicted output of our generic OCR mapping and $y$ is our targeted robust OCR engine.
 
 #### Scoring and Evaluation
 
@@ -43,23 +43,23 @@ We start by defining the dynamic components of what the Levenshtein edit distanc
 - Z: any arbitrary text transformation for observation
 - N: number of samples
 
-Where each sample point and granularity level is defined by the task assigned; i.e.: character error rate vs Word Error Rate vs Line Error Rate, etc.
+&nbsp; Where each sample point and granularity level is defined by the task assigned; i.e.: character error rate vs Word Error Rate vs Line Error Rate, etc.
 
 We propose a generic error rate such that our rate ERR can be expressed as
 
-ERR = $\dfrac{\sum_{i=0}^{I}T_i}{N}$;
+&nbsp; ERR = $\dfrac{\sum_{i=0}^{I}T_i}{N}$;
 
 Where T is a set of potential transformations that are observed in our desired dynamic string comparison algorithm; in our case, Levenshtein Edit Distance, where T represents a set of transformations
 
-T = {S, D, I..., Z}
+&nbsp; T = {S, D, I..., Z}
 
 **Character Error Rate** serves as a character to character dynamic mapping of how well each character is translated during document extraction. This acts as the lowest level of granularity we can statistically achieve using our tokenless transformer based approach and is broken down word by word at the evaluation level. The error rate can be computed as such that:
 
 Where each observation is at the character/btye level
-CER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
+&nbsp; CER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
 
 **Word Error Rate** serves as a sequence to sequence measurement of how well each word in a particular line of text is represented during document extraction. For general use and extension into sequence to sequence prediction in language modeling tasks, the word level serves as the primary level of granularity; i.e.: word insertion, masked language modeling, sequence to sequence translation. Being able to measure the overall representation of line level text can be computed as:
 
-N: number of samples
-Where each observation is at the word/token level
-WER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
+&nbsp; N: number of samples
+&nbsp; Wher e each observation is at the word/token level
+&nbsp; WER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
