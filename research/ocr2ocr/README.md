@@ -63,3 +63,15 @@ Where each observation is at the character/btye level
 &nbsp; N: number of samples
 &nbsp; Wher e each observation is at the word/token level
 &nbsp; WER = $\dfrac{\sum_{i=0}^{I}T_i}{N}$; T = {S, D, I..., Z}
+
+
+**Language Perplixity**  remains ommited for this experiment. Perplexity as a relevancy metric for scoring our sequence generating pipeline is not directly applicable due to the nature of our task and the tokenizers used to generate our sequences. Perplexity is a likelyhood score based on the probablity that an appended token to a predictive sequence stays within the context its sequential predecesors. This does not neccessarily imply that an optimal perplexity score correlates to language correction/translation task performing well. We opted to use the byte level approach WER and CER provides.  Future work includes repoducing this experiment on tokenize vocabulary based approaches; i.e: BERT, BART, T5 to more accurately test this presumption.
+
+#### Experimental Parameters
+1. AutoEncoder: google/Byt5-small
+2. Tokenizer: google/Byt5-small
+3. Training Batch Size: 32
+4. Validation Batch Size: 32
+5. Number of Samples: TBD
+6. Learning Rate: [1e-1, 1e-2, 1e-3, 1e-4, 1e-5]
+7. Baseline: TDSAE using NLP Aug
