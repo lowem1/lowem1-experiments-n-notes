@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+URLS=$1
+CONFIG=$2
+# Load data sources from mimic
+# Credentialed Access Required to Access MIMIC-III/IV
+# Refer to the following repository https://mimic.mit.edu/docs/about/
+# Access for raw files can be found here: https://physionet.org/content/mimiciii/1.4/
+
+
+cat $URLS | parallel "wget -r {} --config $CONFIG"
+
+mv physionet.org/ /mnt/
