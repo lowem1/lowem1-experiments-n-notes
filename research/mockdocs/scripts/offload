@@ -10,3 +10,5 @@ CONFIG=$2
 cat $URLS | parallel "wget -r {} --config $CONFIG"
 
 mv physionet.org/ /mnt/
+
+# create python script for processing load
