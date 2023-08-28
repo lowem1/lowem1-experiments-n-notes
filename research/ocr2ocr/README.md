@@ -75,3 +75,15 @@ Where each observation is at the character/btye level
 5. Number of Samples: TBD
 6. Learning Rate: [1e-1, 1e-2, 1e-3, 1e-4, 1e-5]
 7. Baseline: TDSAE using NLP Aug
+
+
+
+```latex
+@misc{
+    OCROCR,
+    title={Consistency Driven Meta-Learning For Sequence to Sequence Transformers},
+  author={Michael Lowe},
+  howpublished={https://github.com/lowem1/lowem1-experiments-n-notes/research/ocr2ocr},
+  year={2023}
+}
+```
