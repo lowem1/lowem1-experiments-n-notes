@@ -79,8 +79,7 @@ Where each observation is at the character/btye level
 
 
 ```latex
-@misc{
-    OCROCR,
+@misc{ OCR2OCR,
     title={Consistency Driven Meta-Learning For Sequence to Sequence Transformers},
   author={Michael Lowe},
   howpublished={https://github.com/lowem1/lowem1-experiments-n-notes/research/ocr2ocr},
